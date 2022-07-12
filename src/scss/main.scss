@@ -1,0 +1,934 @@
+/* reset css */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0px;
+  padding: 0px;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+a,
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.btn,
+button,
+button:focus,
+input:focus,
+textarea:focus,
+select,
+select:focus,
+a:focus {
+  outline: 0px !important;
+}
+
+button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+button[disabled] {
+  pointer-events: none;
+}
+
+input {
+  padding: 0;
+}
+
+input:required {
+  box-shadow: none;
+}
+
+input:invalid {
+  box-shadow: none;
+}
+
+// 取消 scroll bar 預設樣式
+// ::-webkit-scrollbar {
+//   /* make scrollbar transparent */
+//   width: 0px;
+//   background: transparent;
+// }
+
+/* basic setting */
+html {
+  --bg_white: #ffffff;
+  --bg_lighter_white: #FFFFFE;
+  --bg_light_white: #F0F0F5;
+  --bg_light_black: #2A2A2A;
+  --bg_black: #000000;
+  --bg_pink: #F67599;
+
+  --bg_asd: #292929;
+
+  --font_white: #ffffff;
+  --font_light_white: #F0F0F5;
+  --font_gray: #999999;
+  --font_light_black: #2A2A2A;
+  --font_black: #000000;
+
+  --border_light_white: #F0F0F5;
+  --border_gray: #999999;
+  --border_dark_gray: #4A4A4A;
+  --border_light_black: #2A2A2A;
+
+  --shadow_light_black: #2A2A2A;
+
+  .logo-img {
+    content: url('./image/Logo2x.png')
+  }
+
+  .hamburger-img {
+    content: url('./image/Vector.png');
+  }
+
+  .search-icon {
+    content: url('./image/search-icon2x.png')
+  }
+
+  .shapping-car-icon {
+    content: url('./image/shappingcar-icon2x.png')
+  }
+
+  .dark-mode-icon {
+    content: url('./image/darkmode-icon2x.png')
+  }
+
+  .inner-icon-facebook {
+    content: url('./image/Facebook2x.png')
+  }
+
+  .inner-icon-instagram {
+    content: url('./image/Instagram2x.png')
+  }
+
+  .inner-icon-phone {
+    content: url('./image/Phone2x.png')
+  }
+
+  background-color: var(--bg_white);
+}
+
+html[data-theme='dark'] {
+  --bg_white: #121212;
+  --bg_light_white: #2A2A2A;
+  --bg_light_black: #F0F0F5;
+  --bg_black: #ffffff;
+
+  --font_white: #000000;
+  --font_light_white: #2A2A2A;
+  --font_gray: #999999;
+  --font_light_black: #F0F0F5;
+  --font_black: #ffffff;
+
+  --border_light_white: #2A2A2A;
+  --border_gray: #999999;
+  --border_dark_gray: #E0E0E0;
+  --border_light_black: #F0F0F5;
+
+  --shadow_light_black: #F0F0F5;
+
+  .logo-img {
+    content: url('./image/Logo-dark-mode2x.png')
+  }
+
+  .search-icon {
+    content: url('./image/search-icon-dark-mode2x.png')
+  }
+
+  .shapping-car-icon {
+    content: url('./image/shappingcar-icon-dark-mode2x.png')
+  }
+
+  .dark-mode-icon {
+    content: url('./image/darkmode-icon-light.png')
+  }
+}
+
+@mixin getStepNum($num) {
+  @for $i from 1 through $num {
+    &:nth-child(#{$i}) .circle .circle-num::after {
+      // content: '#{$i}';
+      content: '#{ $i / 2 + 0.5 } ';
+    }
+  }
+}
+
+// @extend 無法在 @media query {} 裡面使用
+// https: //stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
+// You can't be inside of a media query and extend something that' s outside of a media query.
+// 可以改用 mixin
+@mixin font-style24 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+@mixin font-style16 {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+%font-style14 {
+  font-family: 'Inter';
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+}
+
+@mixin font-style12 {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+header,
+main,
+footer {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+header {
+  position: relative;
+  height: 56px;
+
+  nav {
+    position: absolute;
+    top: 56px;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--bg_white);
+    visibility: hidden;
+
+    /*  轉場動畫  */
+    transform: scale(1, 0);
+    transform-origin: top;
+    transition: transform 0.5s ease-out;
+    opacity: 0;
+
+    &.checked {
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1, 1);
+      transition: opacity 0.5s ease-out 0.1s;
+    }
+
+    .nav-item,
+    .nav-icons-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 0px 0px;
+      color: var(--font_black);
+    }
+
+    .nav-item {
+      cursor: pointer;
+      &::after {
+        display: block;
+        content: "";
+        width: 346px;
+        margin-top: 24px;
+        border: 1px solid hsl(0, 0%, 16%, 10%);
+      }
+    }
+
+    .nav-icons-wrapper {
+      padding-bottom: 24px;
+
+      .icons-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 152px;
+        height: 24px;
+
+        .nav-icon {
+          width: 24px;
+          height: 24px;
+          cursor: pointer;
+        }
+
+        input {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .hamburger-wrapper {
+    position: absolute;
+    top: 20px;
+    left: 17px;
+    width: 20px;
+    height: 15px;
+
+    input {
+      display: none;
+    }
+  }
+
+  .logo-wrapper {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 135.86px;
+    height: 24px;
+    transform: translate(-50%, 0);
+    cursor: pointer;
+  }
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 80px;
+
+  .title {
+    @include font-style24;
+    color: var(--font_black);
+
+    &[disabled] {
+      display: none;
+    }
+  }
+
+  .stepper-panel {
+    margin: 16px 15px 0px;
+
+    .progress-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 24px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+
+      @include getStepNum(5);
+
+      .circle {
+        display: flex;
+        flex-shrink: 0;
+        justify-content: center;
+        align-items: center;
+        width: 32px;
+        height: 32px;
+        border: 1px solid var(--border_gray);
+        border-radius: 50%;
+
+        &.active {
+          border-color: var(--border_light_black);
+          background-color: var(--bg_light_black);
+
+          .circle-num {
+            color: var(--font_white);
+          }
+        }
+
+        &.checked {
+          border-color: var(--border_light_black);
+          background-color: var(--bg_light_black);
+
+          .circle-num::after {
+            content: '\2714';
+            color: var(--font_white);
+          }
+        }
+
+        .circle-num {
+          @include font-style16;
+          color: var(--font_gray);
+        }
+      }
+
+      .label-container {
+        display: none;
+      }
+    }
+
+    .connect-line {
+      display: block;
+      content: '';
+      width: 60px;
+      height: 2px;
+      background-color: var(--bg_light_white);
+
+      &.active {
+        background-color: var(--bg_black);
+      }
+    }
+  }
+
+  .paying-panel {
+    margin: 16px 15px 0px;
+
+    .part {
+      display: grid;
+
+      &.disabled {
+        display: none;
+      }
+
+      input,
+      select {
+        width: 100%;
+        height: 40px;
+        padding: 0px 16px;
+        background-color: var(--bg_white);
+        border: 1px solid var(--border_dark_gray);
+        border-radius: 4px;
+        @include font-style12;
+        color: var(--font_light_black);
+      }
+
+      select {
+        cursor: pointer;
+
+        option {
+          &[disabled] {
+            color: var(--font_gray);
+          }
+        }
+      }
+
+      input {
+        &#credit-card-expiration-date {
+          background-color: var(--bg_light_white);
+        }
+      }
+
+      label {
+        display: block;
+        padding-bottom: 8px;
+        @include font-style12;
+        color: var(--font_gray);
+      }
+    }
+
+    .part1 {
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: 16px 30px;
+
+      .form-row {
+        grid-column: 1/6;
+      }
+
+      .form-row-input-title {
+        grid-column: 1/3;
+      }
+
+      .form-row-name {
+        grid-column: 3/6;
+      }
+    }
+
+    .part2 {
+      grid-template-columns: repeat(6, 1fr);
+      grid-gap: 16px 30px;
+
+      .form-row {
+        grid-column: 1/7;
+
+        .radio-wrapper {
+          display: flex;
+          align-items: center;
+          height: 60px;
+          padding-left: 20px;
+          border: 1px solid var(--border_light_white);
+          border-radius: 4px;
+
+          &:nth-child(1) {
+            margin-bottom: 24px;
+          }
+
+          input {
+            display: flex;
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+
+            &[type="radio"] {
+              -webkit-appearance: none;
+              border-radius: 50%;
+              padding: 0px;
+              cursor: pointer;
+
+              &:checked {
+                box-shadow: inset 0 0 0 6px var(--shadow_light_black);
+              }
+            }
+          }
+
+          .label-wrapper {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-right: 20px;
+            margin-left: 20px;
+            cursor: pointer;
+
+            label {
+              margin-bottom: 2px;
+              height: 14px;
+              @extend %font-style14;
+              color: var(--font_black);
+              cursor: pointer;
+
+              &.detail {
+                @include font-style12;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .part3 {
+      grid-template-columns: repeat(6, 1fr);
+      grid-gap: 16px 30px;
+
+      .form-row {
+        grid-column: 1/7;
+      }
+
+      .form-row-credit-card-expiration-date {
+        grid-column: 1/4;
+
+        input {
+          cursor: pointer;
+        }
+      }
+
+      .form-row-credit-card-expiration-CVCCCV {
+        grid-column: 4/7;
+      }
+    }
+  }
+
+  .items-panel {
+    margin: 16px 15px 0px;
+
+    .items-wrapper {
+      display: flex;
+      flex-direction: column;
+      margin: 18px 16px 16px;
+
+      .item-wrapper {
+        display: flex;
+        justify-content: space-between;
+
+        &:not(:nth-child(1)) {
+          margin: 18px 0px 0px;
+        }
+
+        .item-image-wrapper {
+          flex-shrink: 0;
+          width: 100px;
+          height: 100px;
+          border-radius: 4px;
+        }
+
+        .item-info-wrapper {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: flex-end;
+
+          .item-title {
+            @include font-style16;
+            text-align: right;
+            color: var(--font_light_black);
+          }
+
+          .item-num-info-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .button {
+              width: 26px;
+              height: 26px;
+              background: var(--bg_light_white);
+              border-radius: 50%;
+              font-weight: 400;
+              color: var(--font_black);
+            }
+
+            .item-num {
+              width: 52px;
+              height: 17px;
+              margin: 0px 5px;
+              @extend %font-style14;
+              text-align: center;
+              color: var(--font_black);
+            }
+          }
+
+          .item-total-price {
+            width: 52px;
+            height: 22px;
+            @include font-style16;
+            text-align: right;
+            color: var(--font_black);
+          }
+        }
+      }
+    }
+
+    .items-shopping-info {
+      display: flex;
+      flex-direction: column;
+      margin: 0px 16px;
+
+      .ship-price-wrapper,
+      .total-price-wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 16px;
+        margin-bottom: 16px;
+        border-top: 1px solid var(--border_light_white);
+
+        .price-title {
+          @extend %font-style14;
+          color: var(--font_light_black);
+        }
+
+        .total-price {
+          @extend %font-style14;
+          text-align: right;
+          color: var(--font_black);
+        }
+      }
+    }
+  }
+
+  .button-panel {
+    margin: 16px 15px 0px;
+
+    .dividing-bar {
+      display: block;
+      content: '';
+      width: 100%;
+      height: 2px;
+      margin: 20px 0px;
+      background-color: var(--bg_light_white);
+    }
+
+    .form-button-container {
+      display: flex;
+      justify-content: space-between;
+
+      .button {
+        width: 100%;
+        border-radius: 8px;
+        @extend %font-style14;
+
+        &.button-prev {
+          margin-right: 50px;
+          background-color: var(--bg_lighter_white);
+
+          &:hover {
+            border: 1px solid var(--border_gray);
+          }
+        }
+
+        &.button-next {
+          padding-top: 15px;
+          padding-bottom: 15px;
+          background-color: var(--bg_pink);
+          color: var(--font_white);
+
+          &:hover {
+            padding-top: 14px;
+            padding-bottom: 14px;
+            border: 1px solid var(--border_gray);
+          }
+        }
+
+        &:disabled {
+          display: none;
+        }
+      }
+    }
+  }
+
+
+}
+
+footer {
+  display: none;
+}
+
+@media screen and (min-width: 575px) {
+  .container {
+    width: 85%;
+  }
+
+  header {
+    min-width: 1130px;
+    nav {
+      position: static;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1, 1);
+
+      .nav-item-wrapper {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        align-items: center;
+        width: 100%;
+        max-width: 384px;
+        margin: 20px 0px 0px;
+        padding: 0px;
+
+        .nav-item {
+          margin: 0px;
+          padding: 0px;
+        }
+      }
+
+      .nav-icons-wrapper {
+        margin: 18px 0px 0px 0px;
+        padding: 0px;
+      }
+
+      .nav-item {
+        &::after {
+          display: none;
+        }
+      }
+    }
+
+    .hamburger-wrapper {
+      display: none;
+      visibility: hidden;
+    }
+  }
+
+  main {
+    display: flex;
+    justify-content: center;
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      grid-gap: 0px 130px;
+    }
+
+    .stepper-panel {
+      grid-column: 1/2;
+      margin: 80px 0px 0px;
+      min-width: 470px;
+
+      .title {
+        font-size: 32px;
+        color: var(--font_black);
+      }
+
+      .progress-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 32px;
+      }
+
+      .step {
+        display: flex;
+        align-items: center;
+
+        .circle {
+          .circle-num {
+            // 這裡怪怪的，使用 @extend 後，無法自動 watching sass
+            // @extend %font-style12;
+            // 改用 mixin
+            @include font-style12;
+          }
+        }
+
+        .label-container {
+          display: block;
+          margin-left: 8px;
+          color: var(--font_black);
+        }
+      }
+    }
+
+    .paying-panel {
+      grid-row: 2/3;
+
+      .part2 {
+        .form-row {
+          grid-column: 1/6;
+        }
+      }
+
+      .part3 {
+        .form-row {
+          grid-column: 1/5;
+        }
+
+        .form-row-credit-card-expiration-date {
+          grid-column: 1/4;
+        }
+
+        .form-row-credit-card-expiration-CVCCCV {
+          grid-column: 4/7;
+        }
+      }
+    }
+
+    .items-panel {
+      grid-row: 2/3;
+
+      .items-wrapper {
+        .item-wrapper {
+          .item-info-wrapper {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            align-items: center;
+            width: 100%;
+            margin-left: 21px;
+
+            .item-title {
+              grid-column: 1/2;
+              grid-row: 1/2;
+              text-align: left;
+            }
+
+            .item-num-info-wrapper {
+              grid-column: 1/2;
+              grid-row: 2/3;
+              max-width: 115px;
+            }
+
+            .item-total-price {
+              grid-column: 2/3;
+              grid-row: 1/2;
+              width: 100%;
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+
+    .button-panel {
+      grid-row: 3/4;
+    }
+  }
+
+  footer {
+    display: flex;
+    justify-content: center;
+    height: 284px;
+    width: 100%;
+    min-width: 1130px;
+    background-color: var(--bg_light_white);
+
+    .footer-wrapper {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: 12px;
+
+      .footer-item {
+        margin-top: 64px;
+
+        &.footer-item-logo {
+          margin-top: 120px;
+
+          .footer-logo-wrapper {
+            width: 175px;
+            height: 31px;
+            cursor: pointer;
+          }
+        }
+
+        .title {
+          // 這裡怪怪的，使用 @extend 後，無法自動 watching sass
+          // @extend %font-style24;
+          // 改用 mixin
+          @include font-style24;
+          color: var(--font_black);
+        }
+
+        .inner-item-wrapper {
+          display: flex;
+          flex-direction: column;
+          margin-top: 24px;
+
+          .inner-item {
+            margin-bottom: 8px;
+            // 這裡怪怪的，使用 @extend 後，無法自動 watching sass
+            // @extend %font-style16;
+            // 改用 mixin
+            @include font-style16;
+            color: var(--font_gray);
+            cursor: pointer;
+
+            &.inner-icon-wrapper {
+              display: flex;
+
+              .inner-icon {
+                width: 24px;
+                height: 24px;
+                margin-right: 15px;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
